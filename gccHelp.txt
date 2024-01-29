@@ -1,0 +1,28 @@
+gcc hello.c
+gcc hello.c -o hello
+gcc -E hello.c -o hello.i //只执行预处理
+gcc -S hello.i -o hello.s //生成汇编文件
+gcc -S hello.c //直接生成汇编文件
+
+gcc -S demo.c -fverbose-asm //输出带有注释的汇编文件
+gcc -S demo.c -fno-dwarf2-cfi-asm //输出不带cfi的汇编文件
+gcc -S demo.c -masm=intel //输出intel格式的汇编文件（默认是AT&T格式）
+
+objdump -d a.out >> a.s //反汇编a.out可执行文件
+objdump -M intel -d a.out >> a.s //反汇编（指定汇编格式）
+
+//编译命令
+nasm -f elf 1.s -o 1.o
+gcc -m32 1.o -o 1
+./1 ; echo $?
+
+(gdb) set disassembly-flavor intel //把反汇编的格式调整成为intel的格式
+(gdb) disas main //查看反汇编代码
+(gdb) break *0x080483f5 //添加断点
+(gdb) info register eax //查看寄存器eax的值
+(gdb) stepi //向后运行一条指令
+(gdb) disas //查看现在运行情况
+(gdb) layout asm //汇编
+(gdb) layout regs //寄存器+汇编
+(gdb) layout split //源码+汇编
+(gdb) layout src //源码

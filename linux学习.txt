@@ -1,0 +1,162 @@
+截至2022/10/22_14-38,安装的pacman：
+obs-studio
+obs-v4l2sink
+cmake
+v4l2loopback-dkms
+wemeet
+debtap
+virtualbox-host-modules-arch
+linux-headers
+virtualbox-guest-iso
+virtualbox
+
+1.obs-studio 28.0.3中已内置virtual camera,打开obs后运行“sudo modprobe -r v4l2loopback && sudo modprobe v4l2loopback”命令即可点开虚拟相机;
+2.v4l2sink是obs 27.0的插件，用于配置linux端的虚拟相机，在更新版本中的obs中被virtual-camera-filter-0.0.6插件替换;
+3.v4l2loopback是内核的一个模块，用于生成/dev/video*，可以用“sudo remod v4l2loopback”卸载;
+4.可以用“ls -l /sys/devices/virtual/video4linux”查看生成的虚拟相机;
+5.debtap用于将deb包转换成pacman包，用法：
+    sudo debtap -u //更新数据
+    sudo debtap xxx.deb //转换
+    sudo pacman -U xxx.tar.xz //安装
+至于更新数据慢的问题，修改/usr/bin/debtap中的http://ftp.debian.org/debian/dists替换成https://mirrors.ustc.edu.cn/debian/dists即可;
+6.obs的插件.so放在/usr/lib/obs-plugins下.
+
+
+查看二进制文件命令：
+    hexdump -C xxx
+    odd xxx
+    od -tx1 -tc -Ax xxx
+
+
+关于Github GPG签名：
+(1) gpg --full-generate-key
+生成GPG公钥和密钥，注意填在Github中验证过的邮箱，记下密钥ID.
+(2) gpg --list-keys
+列出本地存储的所有GPG密钥信息.
+(3) gpg --armor --export {key_id}
+导出GPG公钥.
+(4) git config --global user.signingkey {key_id}
+关联GPG公钥与Github账户.
+(5) git commit -S -m "..." 或 git config --global commit.gpgsign true
+用GPG签名commit.
+(6) export GPG_TTY=$(tty)
+如果遇到无法输入密码的问题就执行此命令.
+(7) git log --show-signature
+查看本地的某个Git仓库的commit记录和签名信息.
+(8) curl https://github.com/web-flow.gpg | gpg --import
+导入Github所用的GPG密钥.
+(9) gpg --sign-key 4AEE18F83AFDEB23
+用自己的密钥为其签名验证.
+
+figlet 终端输出艺术字.
+
+fortune 终端输出一句名人名言.
+安装包名称是fortune-mod，与之同时安装的还有recode.
+
+Baloo是KDE的文件索引和搜索服务，提升搜索文件的速度。执行以下两条命令来停用baloo框架：
+balooctl suspend // 立即停止
+balooctl disable // 停用框架
+
+遇到sddm登陆后不能加载kde的问题：
+更改登陆用户的默认shell为bash.
+
+使less支持语法高亮，依赖于source-highlight：
+在archlinux中安装软件包lesspipe.
+输入sudo find /usr -name src-hilite-lesspipe.sh -print命令查找到文件src-hilite-lesspipe.sh在/usr/bin中，
+在.zshrc最后添加如下两行命令：
+export LESSOPEN="| /usr/bin/src-hilite-lesspipe.sh %s"
+export LESS=" -R "
+然后source .zshrc即可.
+
+source-highlight是GNU通用语法高亮包，支持将源文件转换成带语法高亮的html/xhtml/latex/texinfo/ANSI文件.
+转成html的用法是：
+source-highlight -s cpp -f html --input 源文件.cpp --out 输出文件.html
+
+locate和find是linux中常用的文件搜索命令.
+其中locate在archlinux中需要手动安装.
+locate使用updatedb命令更新数据库.
+find命令用法：
+find 目录 -name 文件名 -print
+
+" 设置缩进set expandtab tabstop=4 softtabstop=4 shiftwidth=4
+set shiftround autoindent cindent
+set nosmartindent nosmarttab
+retab
+" 详解：" tabstop: TAB符(\t)的宽度" shiftwidth：在一般模式(normal mode)和可视模式(visual mode)下的一个缩进的长度" softtabstop: 在插入模式(insert mode)下一个缩进的长度" expandtab：将TAB符(\t)转换成空格\s
+" shiftround：保证缩进的宽度是shiftwidth的倍数。影响的操作有>和<,即插入模式时的CTRL-T和CTRL-D
+" autoindent：换行时，复制上一行的缩进到新起一行的前面" smartindent：一般与autoindent一起使用，一些特殊的字符或关键此，如{， }, if, else会自动增加一个缩进，在编写代码如c/c++, go, javascript时会比较有用。" cindent：类似smartindent但规则更严格，且不能与smartindent一起使用，一般用于编写c/c++一类的编程语言。" smarttab：基于已有行的缩进，来确定，在新行的开始位置，按<TAB>输入的缩进的长度" retab: 将文件中已有的TAB符(\t)替换成空格符(\s)
+" !!注意：在复制含有缩进的代码前，要先执行:set paste命令避免缩进错乱，再输入:set nopaste解除.
+
+vim对于C++的语法高亮增强文件在~/.vim/after/syntax中.
+
+=== INSTALLATION NOTES for libinput-gestures ===
+A user must be a member of the input group, i.e. run:
+   sudo gpasswd -a $USER input
+A user can start libinput-gestures from their DE, or run:
+   libinput-gestures-setup start
+A user can enable auto start of libinput-gestures, i.e. run:
+   libinput-gestures-setup autostart
+Configuration files are at:
+   /etc/libinput-gestures.conf (system wide default)
+   $HOME/.config/libinput-gestures.conf (optional per user)
+
+有关 GPG 的使用详见 gpg-learn.txt.
+
+使用 OBS 可以很方便地进行B站推流直播.
+
+simplescreenrecorder
+录制屏幕，有GUI.
+
+ArchLinuxCN注册时用来验证人机的命令：
+LC_ALL=C pacman -V|sed -r 's#[0-9]+#caf#g'|md5sum|cut -c1-6
+
+yay -Ps
+展示十个最大的软件包.
+
+yay -Rns
+删除软件包及只被该包依赖的包，不保留配置文件.
+
+./pkg中的hello-world是学习PKGBUILD时创建的，详见archlinux wiki中pkgbuild.
+
+翻译了archlinuxcn wiki gnupg的前半部分.
+
+cjktty是用户编译的支持在tty中显示中文的linux内核.
+
+Inconsolata字体在github有官方仓库.
+
+openssl rsa -in id_rsa -text -noout > 1.txt
+查看id_rsa中的两个大质数.
+openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:64 -pkeyopt rsa_keygen_pubexp:33 -pkeyopt rsa_keygen_primes:17,23 -out private_key.pem
+根据给定质数生成密钥.
+
+pinentry为gpg输入密码时的终端窗口程序.
+
+man -H xxx
+在浏览器中查看manpage，需在.zshrc中配置默认浏览器.
+
+qrencode可以生成二维码.
+
+wget -U "Mozilla/6.0" -O ~/.config/clash/config.yaml "https://v1.v2ai.top/link/ZGRxMZ54YNXuR7ae?clash=1"
+更新clash节点.
+
+ssh -T git@github.com
+检验ssh能否连接到github.
+
+ssh-copy-id -p 8022 u0_a221@192.168.3.149
+将本机ssh公钥发送到目标机.
+
+gpg --export-secret-keys A7BE2387! | paperkey -o 9_paperkey.txt
+导出指定私钥到paperkey并生成可打印的文件.
+
+cups, print-manager, system-config-manager
+linux上的打印机服务，但未成功使用.
+
+qrencode -S -v 32 -r 3_secret.txt -o out.png
+将密钥文件转换成二维码. -v为二维码版本（尺寸）.
+
+wget https://hub.njuu.cf/clearlinux/common/blob/master/OVMF.fd
+获取qemu的efi启动文件.
+
+krdc是适用于kde的vnc程序.
+
+kconnect是适用于kde的手机连接程序.
