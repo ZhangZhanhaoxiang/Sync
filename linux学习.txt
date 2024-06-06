@@ -160,3 +160,8 @@ wget https://hub.njuu.cf/clearlinux/common/blob/master/OVMF.fd
 krdc是适用于kde的vnc程序.
 
 kconnect是适用于kde的手机连接程序.
+
+要想运行hodoku.jar，输入：
+sudo /usr/java/bin/java -jar /home/m81/desktop/hodoku.jar
+
+
